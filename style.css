@@ -1,0 +1,83 @@
+        .container {
+            width: 80%;
+            margin: 20px auto 0px auto;
+        }
+
+
+        .addb {
+            border: solid 1px #8c8cac;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0px;
+            ;
+        }
+
+        #myCanvas {
+            border: solid 1px #8c8cac;
+        }
+
+        .mt10 {
+            margin: 10px 0px;
+            float: left;
+
+        }
+
+        .w100 {
+            width: 100%;
+        }
+
+        .cix {
+            margin-right: 5px !important;
+            margin-top: 2px !important;
+        }
+
+        .smallPuzzle {
+            cursor: pointer;
+
+        }
+
+        canvas {
+            border: solid 1px #1c1c1c;
+        }
+
+        .puzz {
+            float: left;
+            margin-right: 15px;
+            width: 180px;
+            height: 180px;
+            background: #dcdcdc;
+        }
+
+        #main {
+            position: relative;
+            margin-top: 40px;
+        }
+
+        .abs {
+            position: absolute;
+        }
+
+        .w200 {
+            width: 200px;
+        }
+
+        .inlb {
+            display: inline;
+        }
+
+        .f20 {
+            font-size: 20px;
+            padding: 15px;
+        }
+
+        #canvaDiv {
+            width: 900px;
+        }
+
+        .leftspan {
+            float: right;
+        }
+
+        .w900 {
+            width: 900px;
+        }

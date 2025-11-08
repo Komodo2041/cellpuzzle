@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Puzzle cell automa - Project</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="favicon.ico">
+</head>
+
+<body>
+
+    <div id="app" class="container">
+        <h2>Puzzle</h2>
+        <p>Postaraj się jak najszybciej dopasować elementy</p>
+
+        <div v-show="stan==0 || endgame ==1">
+            <label>Wybór owoców: </label>
+            <div v-for="val in 3" :key="val" class="inlb">
+                <label>
+                    <input type="radio" class="form  " @change="setGraphs" name="seltryb" v-model="options[1]"
+                        :value="val" />&nbsp;
+                    {{val}}:
+                    <img :src="'grafika/roll' + val + '.jpg'" />
+                    &nbsp;
+                </label>
+            </div>
+            <br />
+            <label>Poziom trudności:</label>
+            <select v-model="options[0]" class="form form-control w200">
+                <option v-for="diff in difficulity " :value="diff[0]">{{diff[1]}}</option>
+            </select><br />
+            <label>Czas gry:</label>
+            <select v-model="gametime" class="form form-control w200">
+                <option value="1000"> 100 s</option>
+                <option value="2000"> 200 s</option>
+                <option value="3000"> 300 s</option>
+            </select>
+        </div>
+        <div class="mt10 w100">
+            <button v-show="stan==0" @click="start()" class="btn btn-info">
+                Rozpocznij Grę
+            </button>
+            <button v-show="stan==1" @click="reloadGame()" class="btn btn-info">
+                Rozpocznij Jeszcze raz
+            </button>
+            <button v-show="stan==1 && endgame == 0" @click="stopGame()" class="btn btn-info">
+                Zakoń grę
+            </button>
+        </div>
+        <div class="mt10 w900" v-show="stan==1">
+            <span class="badge  f20 text-bg-secondary"> Czas: {{time /10}} s</span>
+            <span class="badge  f20 text-bg-warning" v-show="endgame==1"> Gra zakończona </span>
+            <span class="badge   f20 leftspan text-bg-secondary"> Punkty {{points}} </span>
+        </div>
+        <div id="main" v-show="stan==1">
+            <div id="canvaDiv">
+                <canvas ref="canvas" id="myCanvas" width="900" height="900"></canvas>
+            </div>
+            <div class="mt10 smallPuzzle">
+                <div v-for="row in nrPuzzless" :key="row" class="puzz">
+                    <canvas class="smallPuzzle" ref="canvas" :id="'puzzle' + row " @mousedown="startDrawing"
+                        @mousemove="draw" @mouseup="stopDrawing" @mouseleave="stopDrawing" width="180" :data-id="row"
+                        height="180"></canvas>
+                </div>
+
+                <button @click="seeSolution()" class="btn btn-info">
+                    Pokaż podpowiedzi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
+
+    <script src="main.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
