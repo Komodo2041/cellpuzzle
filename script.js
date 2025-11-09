@@ -1,24 +1,14 @@
 
-
-var shema = getzeroshema();
-var difficulity = [
-  [10, "Very Easy"],
-  [20, "Easy"],
-  [40, "Medium"],
-  [60, "Hard"],
-  [80, "Very Hard"]
-];
-
+Automa = new Automa(1, 1);
+var shema = Automa.getMap();
 
 var data = {
   stan: 0,
-
-  options: [10, 1],
+  options: [1, 1],
+  gametime: 1000,
   puzzlesPos: [],
   nrPuzzless: 4,
   schema: shema,
-  difficulity: difficulity,
-  gametime: 1000,
   time: 1000,
   points: 0,
   endgame: 0,
@@ -26,7 +16,9 @@ var data = {
   step: 0,
   isGoodFit: 0,
   goodPuzzle: 0,
-  topY: 0
+  stangame: "",
+  automa: Automa,
+
 };
 
 
@@ -39,10 +31,16 @@ new Vue({
     start: function () {
 
       clearRect();
-      data.schema = createRandomMap(data.schema, data.options[0]);
-      data.puzzlesPos = getPosPuzzles(data.nrPuzzless);
-      fillBigCanva(data.schema, data.options[1]);
-      fillSmallCanva(data.schema, data.puzzlesPos, data.options[1]);
+
+
+      data.automa.createMap();
+
+      data.schema = data.automa.getMap();
+      params = data.automa.getParams();
+      fillBigCanva(data.schema, params);
+
+      data.puzzlesPos = getPosPuzzles(data.nrPuzzless, params);
+      fillSmallCanva(data.schema, data.puzzlesPos, params);
 
       data.stan = 1;
       data.time = parseInt(data.gametime);
@@ -59,6 +57,13 @@ new Vue({
       this.backSmallPuzzles();
       data.endgame = 1;
     },
+    setPattern: function () {
+      data.automa.changePattern(data.options[1]);
+    },
+    setSize: function () {
+      data.automa.changeSize(data.options[0]);
+    },
+
     backSmallPuzzles: function () {
       targets = document.getElementsByClassName('smallPuzzle');
       for (var i = 0; i < targets.length; i++) {
@@ -66,7 +71,7 @@ new Vue({
       }
     },
     seeSolution: function () {
-      seeSolution(data.puzzlesPos);
+      seeSolution(data.puzzlesPos, data.automa.getParams());
       this.stopGame();
     },
 
@@ -82,10 +87,10 @@ new Vue({
       var crect = c.getBoundingClientRect();
       clickedBox.style.position = 'absolute';
       clickedBox.style.opacity = '0.5';
-      clickedBox.style.top = e.clientY - crect.top + "px";
-      clickedBox.style.left = e.clientX - crect.left - 90 + "px";
+      clickedBox.style.top = e.clientY - crect.top + 60 + "px";
+      clickedBox.style.left = e.clientX - crect.left - 60 + "px";
 
-      if (checkposFit(data.puzzlesPos[pos - 1], [e.clientX - crect.left - 90, e.clientY - crect.top - e.offsetY])) {
+      if (checkposFit(data.puzzlesPos[pos - 1], [e.clientX - crect.left - 60, e.clientY - crect.top - e.offsetY], data.automa.getParams())) {
         this.isGoodFit = 1;
         this.goodPuzzle = pos;
       } else {
@@ -113,8 +118,9 @@ new Vue({
       clickedBox.style.opacity = '0.5';
       this.x = rect.x - crect.x;
       this.y = rect.y - crect.y;
+
       clickedBox.style.left = rect.x - crect.x + "px";
-      clickedBox.style.top = e.clientY + "px";
+      clickedBox.style.top = rect.y - crect.y + "px";
 
     },
 
@@ -129,23 +135,23 @@ new Vue({
       if (this.step >= this.stepGoodFit) {
         this.step = 0;
         this.isGoodFit = 0;
-        this.points += addPoints(this.puzzlesPos[this.goodPuzzle - 1], data.schema)
+        this.points += 10;
         this.backSmallPuzzles();
 
-        data.schema = changePlaceInBigCanva(this.puzzlesPos[this.goodPuzzle - 1], data.schema, data.options[0]);
-        fillBigCanva(data.schema, data.options[1]);
+        data.automa.changePlace(this.puzzlesPos[this.goodPuzzle - 1]);
+        data.schema = data.automa.getMap();
+        params = data.automa.getParams();
+        fillBigCanva(data.schema, params);
 
-        data.puzzlesPos[this.goodPuzzle - 1] = setNewPosPuzzle(data.puzzlesPos, this.goodPuzzle - 1);
-        changeSmallPuzzle(data.puzzlesPos[this.goodPuzzle - 1], data.schema, this.goodPuzzle, data.options[1]);
+        data.puzzlesPos[this.goodPuzzle - 1] = setNewPosPuzzle(data.puzzlesPos, this.goodPuzzle - 1, data.automa.getParams());
+        changeSmallPuzzle(data.puzzlesPos[this.goodPuzzle - 1], data.schema, this.goodPuzzle, data.automa.getParams());
 
       } else {
         fillBigCanva(data.schema, data.options[1]);
         fillSmallCanva(data.schema, data.puzzlesPos, data.options[1]);
       }
     },
-    setGraphs: function () {
-      setGraphics(data.options[1]);
-    },
+
 
   },
 

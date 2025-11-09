@@ -43,8 +43,8 @@
         .puzz {
             float: left;
             margin-right: 15px;
-            width: 180px;
-            height: 180px;
+            width: 120px;
+            height: 120px;
             background: #dcdcdc;
         }
 
@@ -71,7 +71,7 @@
         }
 
         #canvaDiv {
-            width: 900px;
+            width: 600px;
         }
 
         .leftspan {
@@ -79,5 +79,5 @@
         }
 
         .w900 {
-            width: 900px;
+            width: 600px;
         }
