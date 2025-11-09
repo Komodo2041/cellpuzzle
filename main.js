@@ -12,10 +12,10 @@ function fillBigCanva(table, param) {
     for (var i = 0; i < param[0]; i++) {
         for (var j = 0; j < param[0]; j++) {
             if (table[i][j]) {
-                ctx.fillStyle = 'navy';
+                ctx.fillStyle = data.colors[table[i][j]];
                 ctx.fillRect(i * param[1], j * param[1], param[1], param[1]);
             } else {
-                ctx.fillStyle = 'silver';
+                ctx.fillStyle = data.colors[table[i][j]];
                 ctx.fillRect(i * param[1], j * param[1], param[1], param[1]);
             }
 
@@ -75,11 +75,11 @@ function fillPuzzle(table, pos, ctx, param) {
     let smSize = 120 / param[1];
     for (var i = 0; i < smSize; i++) {
         for (var j = 0; j < smSize; j++) {
-            if (table[pos[0] + i][pos[1] + j]) {
-                ctx.fillStyle = 'navy';
+            if (table[pos[0] + i][pos[1] + j] > 0) {
+                ctx.fillStyle = data.colors[table[pos[0] + i][pos[1] + j]];
                 ctx.fillRect(i * param[1], j * param[1], param[1], param[1]);
             } else {
-                ctx.fillStyle = 'silver';
+                ctx.fillStyle = data.colors[table[pos[0] + i][pos[1] + j]];
                 ctx.fillRect(i * param[1], j * param[1], param[1], param[1]);
             }
 

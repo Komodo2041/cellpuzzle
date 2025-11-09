@@ -1,9 +1,9 @@
 class Automa {
 
-    constructor(size, pattern) {
+    constructor(size, pattern, colors) {
         this.changeSize(size);
         this.changePattern(pattern)
-
+        this.changeColors(colors);
         this.map = this.getzeroshema();
         this.allStep = 20;
     }
@@ -34,7 +34,10 @@ class Automa {
         if (pattern == 1) {
             this.strategy = new wolfram();
         }
+    }
 
+    changeColors(level) {
+        this.levelColors = level;
     }
 
     getzeroshema() {
@@ -77,6 +80,9 @@ class Automa {
         for (let i = 0; i <= this.allStep; i++) {
             this.calcNextstepInFragment(pos, size);
         }
+        if (this.levelColors != 1) {
+            this.useLevel(size, pos[0], pos[1]);
+        }
     }
 
     createMap() {
@@ -84,6 +90,28 @@ class Automa {
         for (let i = 0; i <= this.allStep; i++) {
 
             this.calcNextstep();
+        }
+        if (this.levelColors != 1) {
+            this.useLevel(this.size);
+        }
+
+    }
+
+    useLevel(size, x = 0, y = 0) {
+
+        for (let i = x; i < size + x; i++) {
+            for (let j = y; j < size + y; j++) {
+                if (this.map[i][j] == 1) {
+                    if (this.levelColors == 2) {
+
+                        this.map[i][j] = getMaxRandom(1) + 1;
+
+                    }
+                    if (this.levelColors == 3) {
+                        this.map[i][j] = getMaxRandom(2) + 1;
+                    }
+                }
+            }
         }
     }
 
@@ -123,7 +151,7 @@ class Automa {
         let res = 0;
         for (let i = -1; i <= 1; i++) {
             for (let j = -1; j <= 1; j++) {
-                if (this.map[this.invinity(x + i)][this.invinity(y + j)] == 1) {
+                if (this.map[this.invinity(x + i)][this.invinity(y + j)] > 0) {
                     res++;
                 }
             }

@@ -1,10 +1,18 @@
 
-Automa = new Automa(1, 1);
-var shema = Automa.getMap();
+initValue = [1, 1, 1];
+Automa = new Automa(...initValue);
+let shema = Automa.getMap();
+let colors = ['white', 'blue', 'green', 'chocolate'];
+
+var colorsList = [
+  [1, "1 Kolor"],
+  [2, "2 Kolory"],
+  [3, "3 Kolory"],
+];
 
 var data = {
   stan: 0,
-  options: [1, 1],
+  options: initValue,
   gametime: 1000,
   puzzlesPos: [],
   nrPuzzless: 4,
@@ -18,7 +26,8 @@ var data = {
   goodPuzzle: 0,
   stangame: "",
   automa: Automa,
-
+  colors: colors,
+  colorsList: colorsList
 };
 
 
@@ -31,7 +40,6 @@ new Vue({
     start: function () {
 
       clearRect();
-
 
       data.automa.createMap();
 
@@ -63,7 +71,9 @@ new Vue({
     setSize: function () {
       data.automa.changeSize(data.options[0]);
     },
-
+    changeColors: function () {
+      data.automa.changeColors(data.options[2]);
+    },
     backSmallPuzzles: function () {
       targets = document.getElementsByClassName('smallPuzzle');
       for (var i = 0; i < targets.length; i++) {

@@ -43,6 +43,11 @@
                 <option value="2000"> 200 s</option>
                 <option value="3000"> 300 s</option>
             </select>
+            <br />
+            <label>Poziom trudności:</label>
+            <select v-model="options[2]" @change="changeColors" class="form form-control w200">
+                <option v-for="diff in colorsList " :value="diff[0]">{{diff[1]}}</option>
+            </select><br />
         </div>
 
 
